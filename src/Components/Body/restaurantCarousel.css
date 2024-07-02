@@ -1,0 +1,30 @@
+.restaurant-carousel {
+    width: 80%;
+    margin: auto;
+}
+
+.restaurant-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.restaurant-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.restaurant-card h3 {
+    margin: 10px 0;
+}
+
+.restaurant-card p {
+    margin: 5px 0;
+}
+
+.discount {
+    color: red;
+    font-weight: bold;
+}

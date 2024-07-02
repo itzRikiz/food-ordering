@@ -1,0 +1,32 @@
+.brand-card {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    gap: 24px;
+  }
+  .brandItem{
+    padding: 16px;
+    box-sizing: border-box;
+    border: 1.5px solid rgba(2, 6, 12, 0.1);
+    border-radius: 12px;
+    width: 100%;
+    height: auto;
+  }
+  .brandContent{
+    font-family: Gilroy;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.3px;
+    color: rgba(2, 6, 12, 0.75);
+    overflow: hidden;
+    width: 100%;
+    display: -webkit-box;
+    overflow-wrap: break-word;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-align: center;
+  }
+  
+
+  

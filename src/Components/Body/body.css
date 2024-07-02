@@ -1,0 +1,15 @@
+.main{
+    margin: 25px 26px;
+    
+
+}
+.filter{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+.res-card{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
