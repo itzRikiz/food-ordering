@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 // import Box from "@mui/material/Box";
 // import Typography from "@mui/material/Typography";
 // import Modal from "@mui/material/Modal";
-import { databases } from "../../appwrite/config";
+import db from "../../appwrite/databases";
 
 function Body() {
   const [filteredList, setFilteredList] = useState([]);
@@ -16,11 +16,9 @@ function Body() {
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
-        const response = await databases.listDocuments(
-          import.meta.env.VITE_DATABASE_ID,
-          import.meta.env.VITE_COLLECTION_ID_RES
-        );
-        setFilteredList(response.documents);
+        const response = await db.Restaurants.list();
+        console.log(response, "res");
+        // setFilteredList(response);
       } catch (error) {
         console.error("Failed to fetch documents:", error);
       }
