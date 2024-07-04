@@ -14,31 +14,18 @@ function Body() {
   // const [brands, setBrands] = useState([]);
 
   useEffect(() => {
-    const fetchDocuments = async () => {
-      try {
-        const response = await db.Restaurants.list();
-        console.log(response, "res");
-        // setFilteredList(response);
-      } catch (error) {
-        console.error("Failed to fetch documents:", error);
-      }
-    };
-
     fetchDocuments();
   }, []);
-  // useEffect(() => {
-  //   fetch(
-  //     "https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.6533351&lng=88.8535712&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-  //   )
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setFilteredList(
-  //         data.data.cards[3].card.card.gridElements.infoWithStyle.restaurants
-  //       );
-  //       setFilterTitle(data.data.cards[1].card.card.title);
-  //       setBrands(data.data.cards[5].card.card.brands);
-  //     });
-  // }, []);
+  const fetchDocuments = async () => {
+    try {
+      console.log(db.Brands, "db");
+      const response = await db.Restaurants.list();
+      console.log(response, "res");
+      setFilteredList(response.documents);
+    } catch (error) {
+      console.error("Failed to fetch documents:", error);
+    }
+  };
 
   function handleClick() {
     const newList = filteredList.filter((res) => res.info.avgRating > 4);
@@ -57,7 +44,7 @@ function Body() {
       </div> */}
       <div className="res-card">
         {filteredList.map((restaurant) => (
-          <Card key={restaurant.info.id} resData={restaurant} />
+          <Card key={restaurant.$id} resData={restaurant} />
         ))}
       </div>
       <hr style={{ marginTop: "20px" }} />

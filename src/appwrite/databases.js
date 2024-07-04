@@ -9,9 +9,15 @@ const collections = [
         id: import.meta.env.VITE_COLLECTION_ID_RES,
         name: "Restaurants",
     },
+    {
+        dbId: import.meta.env.VITE_DATABASE_ID,
+        id: import.meta.env.VITE_COLLECTION_ID_BRANDS,
+        name: "Brands",
+    },
 ];
 
 collections.forEach((col) => {
+    console.log(collections,"collections");
     db[col.name] = {
         create: (payload, permissions, id = ID.unique()) =>
             databases.createDocument(
