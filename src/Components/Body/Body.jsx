@@ -1,21 +1,16 @@
-import Button from "@mui/material/Button";
 import Card from "./Res-card/Card";
 import "./body.css";
 import { useEffect, useState } from "react";
-// import Brands from "./Brands/Brands";
-// import Box from "@mui/material/Box";
-// import Typography from "@mui/material/Typography";
-// import Modal from "@mui/material/Modal";
 import db from "../../appwrite/databases";
+import Header from "../Header/Header";
+// import Footer from "../Footer/Footer";
 
 function Body() {
   const [filteredList, setFilteredList] = useState([]);
-  // const [filterTitle, setFilterTitle] = useState("");
-  // const [brands, setBrands] = useState([]);
-
   useEffect(() => {
     fetchDocuments();
   }, []);
+
   const fetchDocuments = async () => {
     try {
       console.log(db.Brands, "db");
@@ -27,33 +22,38 @@ function Body() {
     }
   };
 
-  function handleClick() {
-    const newList = filteredList.filter((res) => res.info.avgRating > 4);
-    setFilteredList(newList);
-  }
-
   return (
-    <div className="main">
-      <div className="filter">
-        <Button variant="contained" onClick={handleClick}>
-          Top Rated
-        </Button>
+    <>
+      <div className="header">
+        <Header />
       </div>
-      {/* <div className="title">
-        <h4>{filterTitle}</h4>
-      </div> */}
-      <div className="res-card">
-        {filteredList.map((restaurant) => (
-          <Card key={restaurant.$id} resData={restaurant} />
-        ))}
+      <div className="main-container">
+        <section className="restaurants">
+          <div className="container">
+            <div className="filter">
+              <div className="item-bar">
+                <div className="filters">
+                  <div className="relevance">Relevance</div>
+                  <div className="delivery">Delivery Time</div>
+                  <div className="rating">Rating</div>
+                  <div className="cost-lh">Cost: Low to High</div>
+                  <div className="cost-hl">Cost: High to Low</div>
+                </div>
+              </div>
+            </div>
+            <div className="res-card">
+              {filteredList.map((restaurant) => (
+                <Card key={restaurant.$id} resData={restaurant} />
+              ))}
+            </div>
+          </div>
+        </section>
+        <hr style={{ marginTop: "20px" }} />
       </div>
-      <hr style={{ marginTop: "20px" }} />
-      {/* <div className="brand-card">
-        {brands.map((brand, index) => (
-          <Brands key={index} brandData={brand} />
-        ))}
+      {/* <div className="footer">
+        <Footer />
       </div> */}
-    </div>
+    </>
   );
 }
 

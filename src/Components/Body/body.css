@@ -1,15 +1,92 @@
-.main{
-    margin: 25px 50px;
-    
-
-}
-.filter{
+.main {
+    margin: 25px auto; /* Center the main content and provide top/bottom margin */
+    max-width: 1200px; /* Set a maximum width for the content */
+    width: 90%; /* Ensure the content doesn't overflow on smaller screens */
+    padding: 0 20px; /* Add padding to create gaps on the left and right */
+    box-sizing: border-box; /* Include padding in the width calculation */
+  }
+  
+  .filter {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 50px;
-}
-.res-card{
+  }
+  
+  .res-card {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-}
+    margin-left: 125px;
+    margin-right: 125px;
+    justify-content: space-between; /* Ensure even distribution of cards */
+  }
+  
+  .res-card > * {
+    flex: 1 1 calc(25% - 15px); /* Set each card to take up 25% of the container width minus gap */
+    max-width: calc(25% - 15px); /* Set max width for each card */
+  }
+  
+  @media (max-width: 992px) {
+    .res-card > * {
+      flex: 1 1 calc(50% - 15px); /* Two cards per row on smaller screens */
+      max-width: calc(50% - 15px);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .res-card > * {
+      flex: 1 1 100%; /* One card per row on mobile screens */
+      max-width: 100%;
+    }
+  }
+  
+  .container .item-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .container .item-bar .number {
+    font-weight: 600;
+    font-size: 28px;
+    color: #282c3f;
+    margin-top: -3px;
+  }
+  
+  .container .item-bar::after {
+    color: #3d4152;
+    position: absolute;
+    content: '';
+    left: 0;
+    right: 0;
+    height: 1px;
+    top: 81px;
+    background: #e9e9eb;
+  }
+  
+  .container .item-bar .filters {
+    display: flex;
+    align-items: center;
+  }
+  
+  .container .item-bar .filters div {
+    font-size: 16px;
+    font-weight: 300;
+    color: #686b78;
+    margin-left: 35px;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .filters div:hover::after {
+    color: #3d4152;
+    position: absolute;
+    content: '';
+    left: 0;
+    right: 0;
+    height: 1px;
+    top: 31px;
+    background: #282c3f;
+  }
+  
