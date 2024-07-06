@@ -1,12 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./addRestaurant.css";
 import db from "../../appwrite/databases";
+import CardTable from "./CardTable";
 const AddRestaurant = () => {
   const [name, setName] = useState("");
   const [cuisines, setCuisines] = useState([]);
-  const [rating, setRating] = useState(null);
+  const [rating, setRating] = useState("");
   const [costForTwo, setCostForTwo] = useState("");
   const [cloudinaryImageId, setCloudinaryImageId] = useState("");
+  const [row, setRow] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await db.Restaurants.list();
+      setRow(response.documents);
+    } catch (error) {
+      console.error("Failed to fetch documents:", error);
+      setRow([]);
+    }
+  };
+  const emptyFunction = () => {
+    setName("");
+    setCuisines([]);
+    setRating("");
+    setCostForTwo("");
+    setCloudinaryImageId("");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,9 +42,10 @@ const AddRestaurant = () => {
     };
     console.log(Restaurants);
     try {
-      // const payload = { Restaurants };
       const response = await db.Restaurants.create(Restaurants);
+      fetchData();
       console.log(response, "response");
+      emptyFunction();
     } catch (error) {
       console.error(error);
     }
@@ -106,6 +130,7 @@ const AddRestaurant = () => {
           </div>
         </div>
       </form>
+      <CardTable rows={row} />
     </div>
   );
 };

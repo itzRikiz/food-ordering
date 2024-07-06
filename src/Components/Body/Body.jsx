@@ -2,7 +2,6 @@ import Card from "./Res-card/Card";
 import "./body.css";
 import { useEffect, useState } from "react";
 import db from "../../appwrite/databases";
-import Header from "../Header/Header";
 // import Footer from "../Footer/Footer";
 
 function Body() {
@@ -24,9 +23,6 @@ function Body() {
 
   return (
     <>
-      <div className="header">
-        <Header />
-      </div>
       <div className="main-container">
         <section className="restaurants">
           <div className="container">
