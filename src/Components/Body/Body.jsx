@@ -3,9 +3,11 @@ import "./body.css";
 import { useEffect, useState } from "react";
 import db from "../../appwrite/databases";
 // import Footer from "../Footer/Footer";
+import { Query } from "appwrite";
 
 function Body() {
   const [filteredList, setFilteredList] = useState([]);
+  const [, setDishesList] = useState([]);
   useEffect(() => {
     fetchDocuments();
   }, []);
@@ -18,6 +20,18 @@ function Body() {
       setFilteredList(response.documents);
     } catch (error) {
       console.error("Failed to fetch documents:", error);
+    }
+  };
+  const fetchDishes = async (restaurantId) => {
+    console.log(Query.equal("restaurantId", restaurantId), "Query");
+    try {
+      const response = await db.dishes.list([
+        Query.equal("restaurantId", restaurantId),
+      ]);
+      setDishesList(response.documents);
+      console.log(response.documents, "dishes for restaurant", restaurantId);
+    } catch (error) {
+      console.error("Failed to fetch dishes:", error);
     }
   };
 
@@ -39,7 +53,11 @@ function Body() {
             </div>
             <div className="res-card">
               {filteredList.map((restaurant) => (
-                <Card key={restaurant.$id} resData={restaurant} />
+                <Card
+                  key={restaurant.$id}
+                  resData={restaurant}
+                  onClick={fetchDishes}
+                />
               ))}
             </div>
           </div>

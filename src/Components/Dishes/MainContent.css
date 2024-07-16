@@ -1,0 +1,42 @@
+main {
+    width: 80%;
+    padding: 20px;
+  }
+  
+  .order-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .search-box input {
+    padding: 10px;
+    width: 200px;
+    border: 1px solid #ddd;
+  }
+  
+  .dishes {
+    margin-top: 20px;
+  }
+  
+  .dish {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    padding: 20px 0;
+  }
+  
+  .dish img {
+    width: 100px;
+    height: auto;
+    margin-right: 20px;
+  }
+  
+  .dish-info h3 {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  
+  .dish-info p {
+    margin: 5px 0;
+  }
+  
