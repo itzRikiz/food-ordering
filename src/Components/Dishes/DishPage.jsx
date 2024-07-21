@@ -19,7 +19,7 @@ const DishPage = () => {
   return (
     <>
       <hr />
-      <div className="flex px-20 py-2">
+      <div className="flex px-20 py-2 mt-16">
         <Sidebar
           categories={dishesItem}
           onSelectedCategory={setSelectedCategory}

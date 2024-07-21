@@ -19,7 +19,7 @@ function Body() {
 
   return (
     <>
-      <div className="main-container">
+      <div className="mt-16">
         <section className="restaurants">
           <div className="container mx-auto p-4">
             <div className="flex justify-center mt-5 px-20 mb-10 gap-5">
