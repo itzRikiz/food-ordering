@@ -1,7 +1,44 @@
 import { useState, useEffect } from "react";
-import "./addRestaurant.css";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { useTheme } from "@mui/material/styles";
 import db from "../../appwrite/databases";
 import CardTable from "./CardTable";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const cuisinesOptions = [
+  "Momos",
+  "Chinese",
+  "Snacks",
+  "Fast Food",
+  "Indian",
+  "North Indian",
+];
+
+const getStyles = (name, cuisines, theme) => {
+  return {
+    fontWeight:
+      cuisines.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+};
+
 const AddRestaurant = () => {
   const [name, setName] = useState("");
   const [cuisines, setCuisines] = useState([]);
@@ -9,6 +46,7 @@ const AddRestaurant = () => {
   const [costForTwo, setCostForTwo] = useState("");
   const [cloudinaryImageId, setCloudinaryImageId] = useState("");
   const [row, setRow] = useState([]);
+  const theme = useTheme();
 
   useEffect(() => {
     fetchData();
@@ -23,6 +61,7 @@ const AddRestaurant = () => {
       setRow([]);
     }
   };
+
   const emptyFunction = () => {
     setName("");
     setCuisines([]);
@@ -40,98 +79,127 @@ const AddRestaurant = () => {
       costForTwo,
       cloudinaryImageId,
     };
-    console.log(Restaurants);
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await db.Restaurants.create(Restaurants);
       fetchData();
-      console.log(response, "response");
       emptyFunction();
     } catch (error) {
       console.error(error);
     }
   };
 
-  function handleCuisinesChange(e) {
-    const options = Array.from(e.target.selectedOptions);
-    setCuisines(options.map((option) => option.value));
-  }
+  const handleCuisinesChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setCuisines(typeof value === "string" ? value.split(",") : value);
+  };
+
   return (
-    <div className="container">
-      <h2>Add Restaurant</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-row">
-          <div className="form-field">
-            <label htmlFor="name">Restaurant Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="cuisines">Cuisines</label>
-            <select
-              id="cuisines"
-              name="cuisines"
-              multiple
-              required
-              value={cuisines}
-              onChange={handleCuisinesChange}
-            >
-              <option value="Momos">Momos</option>
-              <option value="Chinese">Chinese</option>
-              <option value="Snacks">Snacks</option>
-              <option value="Fast Food">Fast Food</option>
-              <option value="Indian">Indian</option>
-              <option value="North Indian">North Indian</option>
-            </select>
-          </div>
-          <div className="form-field">
-            <label htmlFor="rating">Rating</label>
-            <input
-              type="number"
-              id="rating"
-              name="rating"
-              step="0.1"
-              min="0"
-              max="5"
-              required
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="costForTwo">Cost for Two</label>
-            <input
-              type="text"
-              id="costForTwo"
-              name="costForTwo"
-              required
-              value={costForTwo}
-              onChange={(e) => setCostForTwo(e.target.value)}
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="cloudinaryImageId">Cloudinary Image ID</label>
-            <input
-              type="text"
-              id="cloudinaryImageId"
-              name="cloudinaryImageId"
-              required
-              value={cloudinaryImageId}
-              onChange={(e) => setCloudinaryImageId(e.target.value)}
-            />
-          </div>
-          <div className="form-field full-width">
-            <button type="submit">Add Restaurant</button>
-          </div>
+    <>
+      <div className="flex justify-center drop-shadow-xl">
+        <h2 className="px-20 text-2xl m-10">Add Restaurant</h2>
+      </div>
+      <div>
+        <div className="px-20">
+          <form onSubmit={handleSubmit}>
+            <div className="p-20 border rounded-xl shadow-xl">
+              <div className="flex gap-5">
+                <div className="form-field">
+                  <TextField
+                    type="text"
+                    id="name"
+                    label="Restaurant Name"
+                    variant="outlined"
+                    name="name"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  ></TextField>
+                </div>
+                <div className="form-field">
+                  <FormControl sx={{ width: 200 }}>
+                    <InputLabel id="cuisines-label">Cuisines</InputLabel>
+                    <Select
+                      labelId="cuisines-label"
+                      id="cuisines"
+                      multiple
+                      displayEmpty
+                      value={cuisines}
+                      onChange={handleCuisinesChange}
+                      input={<OutlinedInput />}
+                      renderValue={(selected) => {
+                        return selected.join(", ");
+                      }}
+                      MenuProps={MenuProps}
+                      inputProps={{ "aria-label": "Without label" }}
+                    >
+                      {cuisinesOptions.map((name) => (
+                        <MenuItem
+                          key={name}
+                          value={name}
+                          style={getStyles(name, cuisines, theme)}
+                        >
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+                <div className="form-field">
+                  <TextField
+                    type="number"
+                    id="rating"
+                    label="Rating"
+                    variant="outlined"
+                    name="rating"
+                    step="0.1"
+                    min="0"
+                    max="5"
+                    required
+                    value={rating}
+                    onChange={(e) => setRating(e.target.value)}
+                  ></TextField>
+                </div>
+                <div className="form-field">
+                  <TextField
+                    type="text"
+                    id="costForTwo"
+                    label="Cost for Two"
+                    variant="outlined"
+                    name="costForTwo"
+                    required
+                    value={costForTwo}
+                    onChange={(e) => setCostForTwo(e.target.value)}
+                  ></TextField>
+                </div>
+                <div className="form-field">
+                  <TextField
+                    type="text"
+                    id="cloudinaryImageId"
+                    label="Cloudinary Image ID"
+                    variant="outlined"
+                    name="cloudinaryImageId"
+                    required
+                    value={cloudinaryImageId}
+                    onChange={(e) => setCloudinaryImageId(e.target.value)}
+                  ></TextField>
+                </div>
+              </div>
+              <div className="float-right mt-5">
+                <Button variant="contained" type="submit">
+                  Add Restaurant
+                </Button>
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
-      <CardTable rows={row} />
-    </div>
+        <div className="mt-10 px-20 shadow-xl">
+          <CardTable rows={row} />
+        </div>
+      </div>
+    </>
   );
 };
 

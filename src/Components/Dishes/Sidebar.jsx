@@ -1,18 +1,21 @@
-import "./sideBar.css";
-function Sidebar() {
+function Sidebar({ categories, onSelectedCategory }) {
+  const categoryNames = Object.values(categories);
+
   return (
-    <aside>
-      <ul className="menu-categories">
-        <li>Momos (3)</li>
-        <li>Starters (28)</li>
-        <li>Fried Rice and Noodles (14)</li>
-        <li>Rolls (2)</li>
-        <li>Main Course (19)</li>
-        <li>Breads (2)</li>
-        <li>Snack (1)</li>
-        <li>Biryani (3)</li>
+    <div className="w-1/4 p-4 border h-80 shadow-md">
+      <h2 className="text-xl font-bold  mb-4">Categories</h2>
+      <ul>
+        {categoryNames.map((categoryName, index) => (
+          <li
+            className="mb-2 cursor-pointer hover:text-blue-500 border-b"
+            key={index}
+            onClick={() => onSelectedCategory(categoryName)}
+          >
+            {categoryName.category}
+          </li>
+        ))}
       </ul>
-    </aside>
+    </div>
   );
 }
 

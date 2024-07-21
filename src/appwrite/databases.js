@@ -1,8 +1,6 @@
 import { databases } from "./config";
 import { ID } from "appwrite";
-
 const db = {};
-
 const collections = [
     {
         dbId: import.meta.env.VITE_DATABASE_ID,
@@ -20,9 +18,7 @@ const collections = [
         name: "dishes",
     },
 ];
-
 collections.forEach((col) => {
-    console.log(collections,"collections");
     db[col.name] = {
         create: (payload, permissions, id = ID.unique()) =>
             databases.createDocument(

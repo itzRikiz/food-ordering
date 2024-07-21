@@ -101,34 +101,38 @@ const CardTable = ({ rows }) => {
 
   return (
     <>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">S/N</TableCell>
-              <TableCell align="center">Restaurant Name</TableCell>
-              <TableCell align="center">Cuisines&nbsp;</TableCell>
-              <TableCell align="center">Rating&nbsp;</TableCell>
-              <TableCell align="center">Cost For Two&nbsp;</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row, index) => (
-              <TableRow
-                key={row.name}
-                onClick={() => handleRowClick(row)}
-                style={{ cursor: "pointer" }}
-              >
-                <TableCell align="center">{index + 1}</TableCell>
-                <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="center">{row.cuisines.join(", ")}</TableCell>
-                <TableCell align="center">{row.rating}</TableCell>
-                <TableCell align="center">₹{row.costForTwo}</TableCell>
+      <div className="shadow-2xl rounded-xl">
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">S/N</TableCell>
+                <TableCell align="center">Restaurant Name</TableCell>
+                <TableCell align="center">Cuisines&nbsp;</TableCell>
+                <TableCell align="center">Rating&nbsp;</TableCell>
+                <TableCell align="center">Cost For Two&nbsp;</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {rows.map((row, index) => (
+                <TableRow
+                  key={row.name}
+                  onClick={() => handleRowClick(row)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <TableCell align="center">{index + 1}</TableCell>
+                  <TableCell align="center">{row.name}</TableCell>
+                  <TableCell align="center">
+                    {row.cuisines.join(", ")}
+                  </TableCell>
+                  <TableCell align="center">{row.rating}</TableCell>
+                  <TableCell align="center">₹{row.costForTwo}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
 
       <Modal
         aria-labelledby="transition-modal-title"

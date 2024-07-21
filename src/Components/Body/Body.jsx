@@ -1,37 +1,19 @@
 import Card from "./Res-card/Card";
-import "./body.css";
 import { useEffect, useState } from "react";
 import db from "../../appwrite/databases";
-// import Footer from "../Footer/Footer";
-import { Query } from "appwrite";
 
 function Body() {
   const [filteredList, setFilteredList] = useState([]);
-  const [, setDishesList] = useState([]);
   useEffect(() => {
     fetchDocuments();
   }, []);
 
   const fetchDocuments = async () => {
     try {
-      console.log(db.Brands, "db");
       const response = await db.Restaurants.list();
-      console.log(response, "res");
       setFilteredList(response.documents);
     } catch (error) {
       console.error("Failed to fetch documents:", error);
-    }
-  };
-  const fetchDishes = async (restaurantId) => {
-    console.log(Query.equal("restaurantId", restaurantId), "Query");
-    try {
-      const response = await db.dishes.list([
-        Query.equal("restaurantId", restaurantId),
-      ]);
-      setDishesList(response.documents);
-      console.log(response.documents, "dishes for restaurant", restaurantId);
-    } catch (error) {
-      console.error("Failed to fetch dishes:", error);
     }
   };
 
@@ -39,34 +21,37 @@ function Body() {
     <>
       <div className="main-container">
         <section className="restaurants">
-          <div className="container">
-            <div className="filter">
-              <div className="item-bar">
-                <div className="filters">
-                  <div className="relevance">Relevance</div>
-                  <div className="delivery">Delivery Time</div>
-                  <div className="rating">Rating</div>
-                  <div className="cost-lh">Cost: Low to High</div>
-                  <div className="cost-hl">Cost: High to Low</div>
-                </div>
+          <div className="container mx-auto p-4">
+            <div className="flex justify-center mt-5 px-20 mb-10 gap-5">
+              <div className="bg-white border rounded-xl p-2 shadow-sm cursor-pointer">
+                Relevance
+              </div>
+              <div className="bg-white border rounded-xl p-2 shadow-sm cursor-pointer">
+                Delivery Time
+              </div>
+              <div className="bg-white border rounded-xl p-2 shadow-sm cursor-pointer">
+                Rating
+              </div>
+              <div className="bg-white border rounded-xl p-2 shadow-sm cursor-pointer">
+                Cost: Low to High
+              </div>
+              <div className="bg-white border rounded-xl p-2 shadow-sm cursor-pointer">
+                Cost: High to Low
               </div>
             </div>
-            <div className="res-card">
+
+            <div className="mb-4 text-lg font-semibold">
+              Restaurants with online food delivery
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredList.map((restaurant) => (
-                <Card
-                  key={restaurant.$id}
-                  resData={restaurant}
-                  onClick={fetchDishes}
-                />
+                <Card key={restaurant.$id} resData={restaurant} />
               ))}
             </div>
           </div>
         </section>
-        <hr style={{ marginTop: "20px" }} />
+        <hr className="mt-4" />
       </div>
-      {/* <div className="footer">
-        <Footer />
-      </div> */}
     </>
   );
 }
