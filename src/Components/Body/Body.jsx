@@ -39,11 +39,10 @@ function Body() {
                 Cost: High to Low
               </div>
             </div>
-
-            <div className="mb-4 text-lg font-semibold">
+            <div className="mb-4 px-28 text-lg font-semibold">
               Restaurants with online food delivery
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="px-28 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredList.map((restaurant) => (
                 <Card key={restaurant.$id} resData={restaurant} />
               ))}
