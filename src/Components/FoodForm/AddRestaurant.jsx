@@ -98,7 +98,7 @@ const AddRestaurant = () => {
 
   return (
     <>
-      <div className="flex justify-center drop-shadow-xl">
+      <div className="flex justify-center mt-16 drop-shadow-xl">
         <h2 className="px-20 text-2xl m-10">Add Restaurant</h2>
       </div>
       <div>
