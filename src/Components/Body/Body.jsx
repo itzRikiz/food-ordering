@@ -1,9 +1,11 @@
 import Card from "./Res-card/Card";
+import { withPromotedLabel } from "../HOC/withPromotedLabel";
 import { useEffect, useState } from "react";
 import db from "../../appwrite/databases";
 
 function Body() {
   const [filteredList, setFilteredList] = useState([]);
+  const PromotedCard = withPromotedLabel(Card);
   useEffect(() => {
     fetchDocuments();
   }, []);
@@ -43,9 +45,13 @@ function Body() {
               Restaurants with online food delivery
             </div>
             <div className="px-28 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredList.map((restaurant) => (
-                <Card key={restaurant.$id} resData={restaurant} />
-              ))}
+              {filteredList.map((restaurant) =>
+                restaurant.promoted ? (
+                  <PromotedCard key={restaurant.$id} resData={restaurant} />
+                ) : (
+                  <Card key={restaurant.$id} resData={restaurant} />
+                )
+              )}
             </div>
           </div>
         </section>
