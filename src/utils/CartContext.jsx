@@ -9,7 +9,6 @@ export const CartProvider = ({ children }) => {
       return storedCart ? JSON.parse(storedCart) : [];
     } catch (error) {
       console.error("Error parsing cart data from local storage:", error);
-      // Reset the cart in local storage if the data is invalid
       localStorage.removeItem("cart");
       return [];
     }

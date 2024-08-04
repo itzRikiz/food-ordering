@@ -5,7 +5,7 @@ import OrderSummary from "../CartPage/OrderSummary";
 
 function Cart() {
   return (
-    <div className="flex p-4 justify-around mt-28">
+    <div className="flex p-4 justify-around mt-28 bg-gray">
       <div className="flex-grow max-w-md mr-8">
         <AccountSection />
         <DeliveryAddressSection />
