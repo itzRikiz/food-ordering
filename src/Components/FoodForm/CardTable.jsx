@@ -44,6 +44,7 @@ const CardTable = ({ rows }) => {
     price: "",
     image: "",
     restaurantId: "",
+    res_name: "",
   });
 
   const handleRowClick = (row) => {
@@ -54,6 +55,7 @@ const CardTable = ({ rows }) => {
       type: row.type || "veg",
       price: row.price || "",
       image: row.image || "",
+      res_name: row.name || "",
     });
     setOpen(true);
   };
@@ -75,6 +77,7 @@ const CardTable = ({ rows }) => {
         price: formData.price,
         img_url: formData.image,
         restaurantId: restaurantId,
+        restaurant_name: formData.res_name,
       };
       console.log(dishitem, "dishitem");
       const response = await db.dishes.create(dishitem);
@@ -158,6 +161,16 @@ const CardTable = ({ rows }) => {
                 >
                   Add Dish
                 </Typography>
+                <TextField
+                  margin="dense"
+                  name="Restaurant Name"
+                  label="Restaurant Name"
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  disabled
+                  value={formData.res_name}
+                />
                 <TextField
                   margin="dense"
                   name="dishName"
