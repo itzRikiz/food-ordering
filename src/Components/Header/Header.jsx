@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import userContext from "../../utils/userContext";
+import { CartContext } from "../../utils/CartContext";
 
 function Header() {
+  const data = useContext(userContext);
+  const CartData = useContext(CartContext);
   return (
     <header className="bg-white shadow-lg  fixed top-0 w-full h-16 z-[1000]">
       <div className="container mx-auto px-4 py-4">
@@ -37,12 +42,21 @@ function Header() {
               </li>
               <li>
                 <div className="nav-item">
-                  <span className="text-gray-800">Sign In</span>
+                  <span className="text-gray-800">
+                    {data.loggedInUser ? data.loggedInUser : "Sign in"}
+                  </span>
                 </div>
               </li>
               <li>
                 <div className="nav-item">
-                  <span className="text-gray-800">Cart</span>
+                  <Link to="/cart-page" className="text-gray-800">
+                    <span className="text-gray-800">
+                      Cart{" "}
+                      <span className="text-white bg-green-700  rounded-lg h-5 w-5  ">
+                        {CartData.cart.length}
+                      </span>
+                    </span>
+                  </Link>
                 </div>
               </li>
             </ul>

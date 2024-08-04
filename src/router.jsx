@@ -4,6 +4,7 @@ import About from "./Components/About/About";
 import AddRestaurant from "./Components/FoodForm/AddRestaurant";
 import AppLayout from "./Components/Body/AppLayout";
 import DishPage from "./Components/Dishes/DishPage";
+import Cart from "./Components/Cart/Cart";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/view-restaurant/:id",
         element: <DishPage />,
+      },
+      {
+        path: "/cart-page",
+        element: <Cart />,
       },
     ],
   },
