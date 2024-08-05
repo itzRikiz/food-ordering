@@ -6,8 +6,12 @@ function Card({ resData }) {
   return (
     <Link to={`/view-restaurant/${resData.$id}`} className="block">
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="border rounded-md">
-          <img src={cloudinaryImageId} className="h-48 p-10" alt={name} />
+        <div className="border-b-2 ">
+          <img
+            src={cloudinaryImageId}
+            alt={name}
+            className="w-full h-48 object-cover p-2 rounded-sm "
+          />
         </div>
         <div className="p-4">
           <h3 className="text-xl font-semibold text-gray-800">{name}</h3>

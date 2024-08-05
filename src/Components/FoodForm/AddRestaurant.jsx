@@ -7,8 +7,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useTheme } from "@mui/material/styles";
+import { CloudUpload } from "@mui/icons-material";
 import db from "../../appwrite/databases";
 import CardTable from "./CardTable";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -149,7 +152,7 @@ const AddRestaurant = () => {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                  ></TextField>
+                  />
                 </div>
                 <div className="form-field">
                   <FormControl sx={{ width: 200 }}>
@@ -193,7 +196,7 @@ const AddRestaurant = () => {
                     required
                     value={rating}
                     onChange={(e) => setRating(e.target.value)}
-                  ></TextField>
+                  />
                 </div>
                 <div className="form-field">
                   <TextField
@@ -205,15 +208,39 @@ const AddRestaurant = () => {
                     required
                     value={costForTwo}
                     onChange={(e) => setCostForTwo(e.target.value)}
-                  ></TextField>
+                  />
                 </div>
                 <div className="form-field">
                   <input
                     type="file"
                     accept="image/*"
+                    id="upload-image"
+                    style={{ display: "none" }}
                     onChange={handleFileChange}
-                    required
                   />
+                  <label htmlFor="upload-image">
+                    <IconButton
+                      color="primary"
+                      aria-label="upload picture"
+                      component="span"
+                      sx={{
+                        backgroundColor: "#f0f0f0",
+                        borderRadius: "8px",
+                        padding: "10px",
+                        "&:hover": {
+                          backgroundColor: "#e0e0e0",
+                        },
+                      }}
+                    >
+                      <CloudUpload sx={{ fontSize: 40 }} />
+                      <Typography
+                        variant="subtitle1"
+                        sx={{ marginLeft: "10px", color: "#555" }}
+                      >
+                        {imageFile ? imageFile.name : "Choose File"}
+                      </Typography>
+                    </IconButton>
+                  </label>
                 </div>
               </div>
               <div className="float-right mt-5">
