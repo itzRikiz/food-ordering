@@ -44,7 +44,7 @@ const AddRestaurant = () => {
   const [cuisines, setCuisines] = useState([]);
   const [rating, setRating] = useState("");
   const [costForTwo, setCostForTwo] = useState("");
-  const [cloudinaryImageId, setCloudinaryImageId] = useState("");
+  const [imageFile, setImageFile] = useState(null);
   const [row, setRow] = useState([]);
   const theme = useTheme();
 
@@ -67,25 +67,58 @@ const AddRestaurant = () => {
     setCuisines([]);
     setRating("");
     setCostForTwo("");
-    setCloudinaryImageId("");
+    setImageFile(null);
+  };
+
+  const handleFileChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
+
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append("file", imageFile);
+    formData.append("upload_preset", "fooddeliveryapp");
+
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/domfaq9kv/image/upload",
+        {
+          method: "post",
+          body: formData,
+        }
+      );
+      const data = await response.json();
+      return data.secure_url; // Return the URL of the uploaded image
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      return "";
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const Restaurants = {
-      name,
-      cuisines,
-      rating: parseFloat(rating),
-      costForTwo,
-      cloudinaryImageId,
-    };
-    try {
-      // eslint-disable-next-line no-unused-vars
-      const response = await db.Restaurants.create(Restaurants);
-      fetchData();
-      emptyFunction();
-    } catch (error) {
-      console.error(error);
+
+    let cloudinaryImageUrl = "";
+    if (imageFile) {
+      cloudinaryImageUrl = await uploadImage();
+    }
+
+    if (cloudinaryImageUrl) {
+      const newRestaurant = {
+        name,
+        cuisines,
+        rating: parseFloat(rating),
+        costForTwo,
+        cloudinaryImageId: cloudinaryImageUrl,
+      };
+
+      try {
+        await db.Restaurants.create(newRestaurant);
+        fetchData();
+        emptyFunction();
+      } catch (error) {
+        console.error("Failed to add restaurant:", error);
+      }
     }
   };
 
@@ -175,16 +208,12 @@ const AddRestaurant = () => {
                   ></TextField>
                 </div>
                 <div className="form-field">
-                  <TextField
-                    type="text"
-                    id="cloudinaryImageId"
-                    label="Cloudinary Image ID"
-                    variant="outlined"
-                    name="cloudinaryImageId"
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
                     required
-                    value={cloudinaryImageId}
-                    onChange={(e) => setCloudinaryImageId(e.target.value)}
-                  ></TextField>
+                  />
                 </div>
               </div>
               <div className="float-right mt-5">
