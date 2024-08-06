@@ -21,6 +21,9 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import db from "../../appwrite/databases";
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 const style = {
   position: "absolute",
@@ -114,6 +117,7 @@ const CardTable = ({ rows }) => {
                 <TableCell align="center">Cuisines&nbsp;</TableCell>
                 <TableCell align="center">Rating&nbsp;</TableCell>
                 <TableCell align="center">Cost For Two&nbsp;</TableCell>
+                <TableCell align="center">Actions&nbsp;</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -130,6 +134,13 @@ const CardTable = ({ rows }) => {
                   </TableCell>
                   <TableCell align="center">{row.rating}</TableCell>
                   <TableCell align="center">₹{row.costForTwo}</TableCell>
+                  <TableCell align="center">
+                    <div className='d-flex justify-between'>
+                      <AddBoxIcon/>
+                      <DriveFileRenameOutlineIcon/>
+                      <DeleteForeverIcon/>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
