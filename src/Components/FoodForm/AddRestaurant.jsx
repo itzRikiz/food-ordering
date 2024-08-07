@@ -12,6 +12,7 @@ import db from "../../appwrite/databases";
 import CardTable from "./CardTable";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import { toast } from "react-toastify";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -49,10 +50,13 @@ const AddRestaurant = () => {
   const [costForTwo, setCostForTwo] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [row, setRow] = useState([]);
+  const [editMode,setEditMode]=useState(false)
+  const [restaurantId,setRestaurantId]=useState(null)
   const theme = useTheme();
 
   useEffect(() => {
     fetchData();
+    emptyFunction();
   }, []);
 
   const fetchData = async () => {
@@ -71,6 +75,28 @@ const AddRestaurant = () => {
     setRating("");
     setCostForTwo("");
     setImageFile(null);
+    setEditMode(false);
+    setRestaurantId(null);
+  };
+  const handleEdit = (item)=>{
+    console.log(item);
+    
+    setName(item.name);
+    setCuisines(item.cuisines);
+    setRating(item.rating);
+    setCostForTwo(item.costForTwo);
+    setRestaurantId(item.$id);
+    setEditMode(true);
+   
+  }
+  const handleDelete = async (id) => {
+    try {
+      await db.Restaurants.delete(id); 
+      toast.success("Restaurant deleted successfully");
+      fetchData(); 
+    } catch (error) {
+      console.error("Error deleting restaurant:", error);
+    }
   };
 
   const handleFileChange = (e) => {
@@ -90,8 +116,9 @@ const AddRestaurant = () => {
           body: formData,
         }
       );
+      toast.success("Image Upoaded Succesfully")
       const data = await response.json();
-      return data.secure_url; // Return the URL of the uploaded image
+      return data.secure_url; 
     } catch (error) {
       console.error("Image upload failed:", error);
       return "";
@@ -116,7 +143,13 @@ const AddRestaurant = () => {
       };
 
       try {
-        await db.Restaurants.create(newRestaurant);
+        if (editMode) {
+          await db.Restaurants.update(restaurantId, newRestaurant);
+          toast.success("Restaurant Updated Succesfully")
+        } else {
+          await db.Restaurants.create(newRestaurant);
+          toast.success("Restaurant Added Succesfully")
+        }
         fetchData();
         emptyFunction();
       } catch (error) {
@@ -245,14 +278,14 @@ const AddRestaurant = () => {
               </div>
               <div className="float-right mt-5">
                 <Button variant="contained" type="submit">
-                  Add Restaurant
+                 {editMode?'Update':"Save"}
                 </Button>
               </div>
             </div>
           </form>
         </div>
         <div className="mt-10 px-20 shadow-xl">
-          <CardTable rows={row} />
+          <CardTable rows={row} onEdit={handleEdit} onDelete={handleDelete}  />
         </div>
       </div>
     </>

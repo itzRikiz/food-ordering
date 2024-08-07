@@ -1,7 +1,7 @@
 function Sidebar({ categories, onSelectedCategory }) {
-  console.log(categories);
+  
   return (
-    <div className="w-1/4 p-4 border h-80 shadow-md">
+    <div className="w-1/4 p-5 border h-80 shadow-md bg-white">
       <h2 className="text-xl font-bold mb-4">Categories</h2>
       <ul>
         {categories.map((categoryName, index) => (

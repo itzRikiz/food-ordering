@@ -12,15 +12,12 @@ function MainContent({ category }) {
   }
 
   return (
-    <div className="w-3/4 p-4 shadow-lg">
+    <div className="w-3/4 p-5 shadow-lg bg-white">
       {category.map((dish) => (
         <div key={dish.$id} className="mb-6 flex items-center border-b pb-6">
           <img
             className="w-28 h-28 object-cover rounded-lg mr-4"
-            src={
-              dish.image ||
-              "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
+            src={dish.img_url}
             alt={dish.dish_name}
           />
           <div className="flex-1">

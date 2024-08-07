@@ -3,6 +3,8 @@ import { useContext } from "react";
 import userContext from "../../utils/userContext";
 import { CartContext } from "../../utils/CartContext";
 
+
+
 function Header() {
   const data = useContext(userContext);
   const CartData = useContext(CartContext);
@@ -12,7 +14,7 @@ function Header() {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link to="/" className="text-2xl font-bold text-gray-800">
-              Logo
+              {/* <img src={image}></img> */}
             </Link>
             <div className="ml-6 flex items-center">
               <span className="text-gray-600">Basirhat, India</span>

@@ -25,6 +25,7 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -37,7 +38,7 @@ const style = {
   p: 4,
 };
 
-const CardTable = ({ rows }) => {
+const CardTable = ({ rows,onEdit,onDelete }) => {
   const [open, setOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [formData, setFormData] = useState({
@@ -62,6 +63,18 @@ const CardTable = ({ rows }) => {
     });
     setOpen(true);
   };
+  const handleEdit = (row) => {
+    onEdit(row);
+  };
+  const handleDelete = async (row)=>{
+    try {
+      const documentId = row.$id; 
+      await onDelete(documentId); 
+    } catch (error) {
+      console.error("Error deleting restaurant:", error);
+    }
+  };
+  
 
   const handleClose = () => {
     setOpen(false);
@@ -124,7 +137,6 @@ const CardTable = ({ rows }) => {
               {rows.map((row, index) => (
                 <TableRow
                   key={row.name}
-                  onClick={() => handleRowClick(row)}
                   style={{ cursor: "pointer" }}
                 >
                   <TableCell align="center">{index + 1}</TableCell>
@@ -136,9 +148,9 @@ const CardTable = ({ rows }) => {
                   <TableCell align="center">₹{row.costForTwo}</TableCell>
                   <TableCell align="center">
                     <div className='d-flex justify-between'>
-                      <AddBoxIcon/>
-                      <DriveFileRenameOutlineIcon/>
-                      <DeleteForeverIcon/>
+                      <AddBoxIcon onClick={() => handleRowClick(row)}/>
+                      <DriveFileRenameOutlineIcon  onClick={() => handleEdit(row)}/>
+                      <DeleteForeverIcon onClick={() => handleDelete(row)}/>
                     </div>
                   </TableCell>
                 </TableRow>

@@ -55,7 +55,6 @@ function Body() {
             </div>
           </div>
         </section>
-        <hr className="mt-4" />
       </div>
     </>
   );

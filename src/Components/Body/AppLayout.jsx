@@ -1,12 +1,17 @@
 import { Outlet } from "react-router-dom";
 import Header from "../Header/Header";
 import userContext from "../../utils/userContext";
+import Footer from "../Footer/Footer";
+
 const AppLayout = () => {
   return (
     <userContext.Provider value={{ loggedInUser: "sanmay" }}>
-      <div className="bg-gray-100 min-h-screen">
+      <div className="bg-green-300 min-h-screen flex flex-col">
         <Header />
-        <Outlet />
+        <main className="flex-grow">
+          <Outlet />
+        </main>
+        <Footer />
       </div>
     </userContext.Provider>
   );
