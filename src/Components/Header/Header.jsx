@@ -3,10 +3,8 @@ import { useContext } from "react";
 import userContext from "../../utils/userContext";
 import { CartContext } from "../../utils/CartContext";
 
-
-
 function Header() {
-  const data = useContext(userContext);
+  const {loggedInUser} = useContext(userContext);
   const CartData = useContext(CartContext);
   return (
     <header className="bg-white shadow-lg  fixed top-0 w-full h-16 z-[1000]">
@@ -42,13 +40,39 @@ function Header() {
                   </Link>
                 </div>
               </li>
-              <li>
+              {!loggedInUser ? (
+                <>
+                  <li>
+                    <div className="nav-item">
+                      <Link to="/login" className="text-gray-800">
+                        <span>Login</span>
+                      </Link>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="nav-item">
+                      <Link to="/signup" className="text-gray-800">
+                        <span>Sign Up</span>
+                      </Link>
+                    </div>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <div className="nav-item">
+                    <Link to="/profile" className="text-gray-800">
+                      <span>Profile</span>
+                    </Link>
+                  </div>
+                </li>
+              )}
+              {/* <li>
                 <div className="nav-item">
-                  <span className="text-gray-800">
-                    {data.loggedInUser ? data.loggedInUser : "Sign in"}
-                  </span>
+                  <Link to="/signup" className="text-gray-800">
+                    <span>Sign Up</span>
+                  </Link>
                 </div>
-              </li>
+              </li> */}
               <li>
                 <div className="nav-item">
                   <Link to="/cart-page" className="text-gray-800">

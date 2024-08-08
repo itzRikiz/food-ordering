@@ -5,8 +5,8 @@ import Footer from "../Footer/Footer";
 
 const AppLayout = () => {
   return (
-    <userContext.Provider value={{ loggedInUser: "sanmay" }}>
-      <div className="bg-green-300 min-h-screen flex flex-col">
+    <userContext.Provider value={{ loggedInUser: false }}>
+      <div className="bg-gradient-to-r from-yellow-200 to-red-400 min-h-screen flex flex-col">
         <Header />
         <main className="flex-grow">
           <Outlet />

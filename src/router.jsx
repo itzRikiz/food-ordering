@@ -5,6 +5,8 @@ import AddRestaurant from "./Components/FoodForm/AddRestaurant";
 import AppLayout from "./Components/Body/AppLayout";
 import DishPage from "./Components/Dishes/DishPage";
 import Cart from "./Components/Cart/Cart";
+import LoginForm from "./pages/Sessions/Login";
+import SignupForm from "./pages/Sessions/Signup";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: "/cart-page",
         element: <Cart />,
+      },
+      {
+        path: "/login",
+        element: <LoginForm />,
+      },
+      {
+        path: "/signup",
+        element: <SignupForm />,
       },
     ],
   },
