@@ -9,8 +9,10 @@ import "@fontsource/roboto/700.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CartProvider } from "./utils/CartContext.jsx";
+import { UserProvider } from "./utils/UserContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
+  <UserProvider>
   <CartProvider>
     <React.StrictMode>
       <App />
@@ -28,4 +30,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       />
     </React.StrictMode>
   </CartProvider>
+  </UserProvider>
 );

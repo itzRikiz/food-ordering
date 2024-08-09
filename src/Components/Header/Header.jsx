@@ -1,18 +1,32 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import userContext from "../../utils/userContext";
+import {UserContext} from "../../utils/UserContext.jsx"
 import { CartContext } from "../../utils/CartContext";
+import { account } from "../../appwrite/config";
+import { toast } from "react-toastify";
 
 function Header() {
-  const {loggedInUser} = useContext(userContext);
+  const {user} = useContext(UserContext);
+  
   const CartData = useContext(CartContext);
+
+  const handleLogout = async()=>{
+    try {
+    await account.deleteSession('current')
+      toast.success("Logged Out")
+    } catch (error) {
+      toast.error(error)
+    }
+
+    
+  }
   return (
     <header className="bg-white shadow-lg  fixed top-0 w-full h-16 z-[1000]">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link to="/" className="text-2xl font-bold text-gray-800">
-              {/* <img src={image}></img> */}
+              Home
             </Link>
             <div className="ml-6 flex items-center">
               <span className="text-gray-600">Basirhat, India</span>
@@ -40,7 +54,7 @@ function Header() {
                   </Link>
                 </div>
               </li>
-              {!loggedInUser ? (
+              {!user ? (
                 <>
                   <li>
                     <div className="nav-item">
@@ -56,12 +70,17 @@ function Header() {
                       </Link>
                     </div>
                   </li>
+                  <li>
+                    <div className="nav-item cursor-pointer">
+                        <span onClick={handleLogout}>Logout</span>
+                    </div>
+                  </li>
                 </>
               ) : (
                 <li>
                   <div className="nav-item">
                     <Link to="/profile" className="text-gray-800">
-                      <span>Profile</span>
+                      <span>{user?.name}</span>
                     </Link>
                   </div>
                 </li>
