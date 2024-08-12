@@ -1,7 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import { account } from "../appwrite/config";
-import { toast } from "react-toastify";
-
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
@@ -15,7 +13,6 @@ export const UserProvider = ({ children }) => {
         setUser(userData);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        toast.error("Couldn't fetch user data. Please try again.");
       } finally {
         setLoading(false);
       }

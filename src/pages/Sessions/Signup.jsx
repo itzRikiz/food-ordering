@@ -3,6 +3,7 @@
 import { account } from "../../appwrite/config";
 import { ID } from "appwrite";
 import { useState } from "react";
+import LoginForm from "./Login";
 const SignupForm = () => {
   const [userData, setUserData] = useState({
     name: "",
@@ -10,6 +11,7 @@ const SignupForm = () => {
     password: "",
     // confirmPassword: "",
   });
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -22,18 +24,23 @@ const SignupForm = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     const signupFun = await account.create(
-      ID.unique(), 
+      ID.unique(),
       userData.email,
       userData.password,
-      userData.name,
-    )
-    signupFun.then((res)=>{
-      console.log(res,"res");
-    },(err)=>{
-      console.error(err);
-      
-    })
+      userData.name
+    );
+    signupFun.then(
+      (res) => {
+        console.log(res, "res");
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
   };
+  if (isLogin) {
+    return <LoginForm />;
+  }
   return (
     <div className="mt-9 min-h-screen flex items-center justify-center ">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
@@ -112,11 +119,15 @@ const SignupForm = () => {
             Sign Up
           </button>
         </form>
-        <p className="text-center text-gray-600 mt-6">
-          Already have an account?{" "}
-          <a href="#" className="text-green-600 hover:text-green-800 font-bold">
-            Sign In
-          </a>
+        <hr className="mx-auto my-4 w-20 border-gray-300 mt-5" />
+        <p className="text-center text-gray-600 mt-3">
+          Already have an account?
+        </p>
+        <p
+          className="text-center text-green-600 hover:text-green-800 font-medium cursor-pointer"
+          onClick={() => setIsLogin(true)}
+        >
+          Sign In
         </p>
       </div>
     </div>
