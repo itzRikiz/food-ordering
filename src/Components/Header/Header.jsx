@@ -37,7 +37,7 @@ function Header() {
           </div>
           <div>
             <ul className="flex space-x-6">
-              <li>
+              {/* <li>
                 <div className="nav-item">
                   <input
                     type="search"
@@ -46,7 +46,7 @@ function Header() {
                     placeholder="Type to Search"
                   />
                 </div>
-              </li>
+              </li> */}
               <li>
                 <div className="nav-item">
                   <span className="text-gray-800 hover:text-green-800 cursor-pointer">
