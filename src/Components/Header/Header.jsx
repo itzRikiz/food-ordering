@@ -21,15 +21,20 @@ function Header() {
   };
 
   return (
-    <header className="bg-white shadow-lg fixed top-0 w-full h-16 z-[1000]">
+    <header className="bg-transparent fixed shadow-md top-0 w-full h-16 z-[1000]">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
-          <div className="flex items-center">
-            <Link to="/" className="text-2xl font-bold text-gray-800">
+          <div className="flex items-center ">
+            <Link
+              to="/"
+              className="text-2xl font-bold hover:text-outline  text-white"
+            >
               Home
             </Link>
             <div className="ml-6 flex items-center">
-              <span className="text-gray-600">Basirhat, India</span>
+              <span className="text-gray-600 hover:text-outline">
+                Basirhat, India
+              </span>
               <span className="ml-2 text-gray-600">
                 <i className="fa-solid fa-angle-down"></i>
               </span>
@@ -49,7 +54,7 @@ function Header() {
               </li> */}
               <li>
                 <div className="nav-item">
-                  <span className="text-gray-800 hover:text-green-800 cursor-pointer">
+                  <span className="text-white font-semibold hover:text-outline cursor-pointer">
                     Offers
                   </span>
                 </div>
@@ -58,7 +63,7 @@ function Header() {
                 <div className="nav-item">
                   <Link
                     to="/add-restaurant"
-                    className="text-gray-800 hover:text-green-800"
+                    className="text-white font-semibold hover:text-outline"
                   >
                     <span>Add Restaurant Info</span>
                   </Link>
@@ -70,7 +75,7 @@ function Header() {
                     <div className="nav-item">
                       <Link
                         to="/login"
-                        className="text-gray-800 hover:text-green-800"
+                        className="text-white font-semibold hover:text-outline"
                       >
                         <span>Sign In</span>
                       </Link>
@@ -94,7 +99,7 @@ function Header() {
               <li>
                 <div className="nav-item">
                   <Link to="/cart-page" className="text-gray-800">
-                    <span className="text-gray-800 hover:text-green-800">
+                    <span className="text-white font-semibold hover:text-outline">
                       Cart{" "}
                       <span className="text-white bg-green-700 rounded-lg h-5 w-5">
                         {CartData.cart.length}

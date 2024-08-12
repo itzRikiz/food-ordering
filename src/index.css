@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: transparent;
+  -ms-text-size-adjust: none;
+  outline: none;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -22,6 +32,9 @@
     to(#19911d),
     color-stop(0.6, #54de5d)
   );
+}
+.hover\:text-outline:hover {
+  text-shadow: 0 0 1px #6e6e6e;
 }
 
 scrollbar-width: thin;
