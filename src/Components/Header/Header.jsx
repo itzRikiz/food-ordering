@@ -1,14 +1,15 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../utils/UserContext.jsx";
-import { CartContext } from "../../utils/CartContext";
+// import { CartContext } from "../../utils/CartContext";
 import { account } from "../../appwrite/config";
 import { toast } from "react-toastify";
 import PositionedMenu from "../Common/PositionedMenu.jsx";
+import { useSelector } from "react-redux";
 
 function Header() {
   const { user, setUser } = useContext(UserContext);
-  const CartData = useContext(CartContext);
+  // const CartData = useContext(CartContext);
 
   const handleLogout = async () => {
     try {
@@ -19,6 +20,8 @@ function Header() {
       toast.error(error);
     }
   };
+
+  const CartItem = useSelector((store) => store.cart.items);
 
   return (
     <header className="bg-transparent fixed shadow-md top-0 w-full h-16 z-[1000]">
@@ -102,7 +105,8 @@ function Header() {
                     <span className="text-white font-semibold hover:text-outline">
                       Cart{" "}
                       <span className="text-white bg-green-700 rounded-lg h-5 w-5">
-                        {CartData.cart.length}
+                        {/* {CartData.cart.length} */}
+                        {CartItem.length}
                       </span>
                     </span>
                   </Link>
