@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../utils/UserContext.jsx";
-// import { CartContext } from "../../utils/CartContext";
 import { account } from "../../appwrite/config";
 import { toast } from "react-toastify";
 import PositionedMenu from "../Common/PositionedMenu.jsx";
@@ -9,8 +8,6 @@ import { useSelector } from "react-redux";
 
 function Header() {
   const { user, setUser } = useContext(UserContext);
-  // const CartData = useContext(CartContext);
-
   const handleLogout = async () => {
     try {
       await account.deleteSession("current");
@@ -45,16 +42,6 @@ function Header() {
           </div>
           <div>
             <ul className="flex space-x-6">
-              {/* <li>
-                <div className="nav-item">
-                  <input
-                    type="search"
-                    id="search"
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-                    placeholder="Type to Search"
-                  />
-                </div>
-              </li> */}
               <li>
                 <div className="nav-item">
                   <span className="text-white font-semibold hover:text-outline cursor-pointer">

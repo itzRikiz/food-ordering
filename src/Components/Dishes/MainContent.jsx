@@ -1,10 +1,10 @@
-import { useContext } from "react";
-import { CartContext } from "../../utils/CartContext";
+import { addItem } from "../../Redux/CartSlice/CartSlice";
+import { useDispatch } from "react-redux";
 
 function MainContent({ category }) {
-  const { setCart } = useContext(CartContext);
+  const dispatch = useDispatch();
   const addToCart = (dish) => {
-    setCart((prevCart) => [...prevCart, dish]);
+    dispatch(addItem((prevCart) => [...prevCart, dish]));
   };
 
   if (!category) {
