@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 function MainContent({ category }) {
   const dispatch = useDispatch();
   const addToCart = (dish) => {
-    dispatch(addItem((prevCart) => [...prevCart, dish]));
+    dispatch(addItem(dish));
   };
 
   if (!category) {
