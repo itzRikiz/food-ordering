@@ -1,5 +1,5 @@
-import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
 function AccountSection() {
