@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 function OrderSummary() {
