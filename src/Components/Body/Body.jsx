@@ -1,7 +1,7 @@
 import Card from "./Res-card/Card";
 import { withPromotedLabel } from "../HOC/withPromotedLabel";
 import { useEffect, useState } from "react";
-import db from "../../appwrite/databases";
+// import db from "../../appwrite/databases";
 
 function Body() {
   const [filteredList, setFilteredList] = useState([]);
@@ -12,10 +12,14 @@ function Body() {
 
   const fetchDocuments = async () => {
     try {
-      const response = await db.Restaurants.list();
-      setFilteredList(response.documents);
+      const response = await fetch("http://localhost:3000/api/restaurants");
+      console.log(response, "response");
+      const data = await response.json();
+      console.log(data, "data");
+      setFilteredList(data.restaurants);
+      console.log(filteredList, "filteredList");
     } catch (error) {
-      console.error("Failed to fetch documents:", error);
+      console.error("Error fetching restaurants:", error);
     }
   };
 

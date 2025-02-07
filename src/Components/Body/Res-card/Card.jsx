@@ -15,7 +15,7 @@ function Card({ resData }) {
         </div>
         <div className="p-4 shadow-inner">
           <h3 className="text-xl font-semibold text-gray-800">{name}</h3>
-          <p className="text-gray-600">{cuisines.join(", ")}</p>
+          {/* <p className="text-gray-600">{cuisines.join(", ")}</p> */}
           <div className="mt-2 flex justify-between">
             <div className="flex items-center">
               <span className="text-gray-600">Rating:</span>
