@@ -7,7 +7,6 @@ import DishPage from "./Components/Dishes/DishPage";
 import Cart from "./Components/Cart/Cart";
 import LoginForm from "./pages/Sessions/Login";
 import SignupForm from "./pages/Sessions/Signup";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -17,6 +16,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <Body />,
       },
+
       {
         path: "/about",
         element: <About />,

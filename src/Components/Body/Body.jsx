@@ -1,8 +1,8 @@
 import Card from "./Res-card/Card";
 import { withPromotedLabel } from "../HOC/withPromotedLabel";
 import { useEffect, useState } from "react";
-// import db from "../../appwrite/databases";
-
+import Hero from "./Hero";
+import FoodCategories from "./FoodCategories";
 function Body() {
   const [filteredList, setFilteredList] = useState([]);
   const PromotedCard = withPromotedLabel(Card);
@@ -24,30 +24,15 @@ function Body() {
   };
 
   return (
-    <div className="mt-16">
-      <section className="restaurants">
-        <div className="container mx-auto p-4">
-          <div className="flex justify-center mt-5 px-20 mb-10 gap-5">
-            <div className="bg-white  border rounded-xl p-2 shadow-inner cursor-pointer">
-              Relevance
-            </div>
-            <div className="bg-white border rounded-xl p-2 shadow-inner cursor-pointer">
-              Delivery Time
-            </div>
-            <div className="bg-white border rounded-xl p-2 shadow-inner cursor-pointer">
-              Rating
-            </div>
-            <div className="bg-white border rounded-xl p-2 shadow-inner cursor-pointer">
-              Cost: Low to High
-            </div>
-            <div className="bg-white border rounded-xl p-2 shadow-inner cursor-pointer">
-              Cost: High to Low
-            </div>
-          </div>
-          <div className="mb-4 px-28 text-lg font-semibold">
-            Restaurants with online food delivery
-          </div>
-          <div className="px-28 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="">
+      <Hero />
+      <FoodCategories />
+      <section className="py-8 md:py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center text-eggplant">
+            Featured Restaurants
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {filteredList.map((restaurant) =>
               restaurant.promoted ? (
                 <PromotedCard key={restaurant.$id} resData={restaurant} />

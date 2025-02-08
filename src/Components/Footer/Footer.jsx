@@ -1,23 +1,80 @@
+import { Link } from "react-router-dom";
 function Footer() {
   return (
-    <footer className="bg-transparent shadow-inner py-4 ">
+    <footer className="bg-eggplant text-cream py-8">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <span className="text-sm md:text-base mb-2 md:mb-0">
-            Copyright © 2021{" "}
-            <a href="#" className="text-blue-400">
-              CodingLab
-            </a>
-            . All rights reserved.
-          </span>
-          <div className="text-sm md:text-base">
-            <a href="#" className="text-blue-400 mx-2">
-              Privacy policy
-            </a>
-            <a href="#" className="text-blue-400 mx-2">
-              Terms & condition
-            </a>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 className="text-xl font-semibold mb-4">FoodieHub</h3>
+            <p className="text-sage text-sm md:text-base">
+              Discover and order the best food from restaurants in your area.
+            </p>
           </div>
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  to="/about"
+                  className="text-sage hover:text-orange text-sm md:text-base"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="text-sage hover:text-orange text-sm md:text-base"
+                >
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/faq"
+                  className="text-sage hover:text-orange text-sm md:text-base"
+                >
+                  FAQs
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/partner"
+                  className="text-sage hover:text-orange text-sm md:text-base"
+                >
+                  Partner with us
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
+            <div className="flex space-x-4">
+              <a
+                href="#"
+                className="text-sage hover:text-orange text-sm md:text-base"
+              >
+                Facebook
+              </a>
+              <a
+                href="#"
+                className="text-sage hover:text-orange text-sm md:text-base"
+              >
+                Twitter
+              </a>
+              <a
+                href="#"
+                className="text-sage hover:text-orange text-sm md:text-base"
+              >
+                Instagram
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="mt-8 pt-8 border-t border-sage text-center text-sage">
+          <p className="text-sm md:text-base">
+            &copy; 2025 FoodieHub. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
