@@ -4,19 +4,6 @@ A responsive and feature-rich food ordering platform, enabling users to explore 
 
 ---
 
-## 🚀 **Table of Contents**
-
-- [Description](#description)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Installation Instructions](#installation-instructions)
-- [Usage](#usage)
-- [Folder Structure](#folder-structure)
-- [Contributing](#contributing)
-- [License](#license)
-
----
-
 ## 📋 **Description**
 
 This is a modern food ordering application built using **React**. It features a restaurant listing system that fetches data from a local API and displays a variety of restaurants along with their details. The app also allows users to filter, sort, and view promoted restaurants in a dynamic way.
