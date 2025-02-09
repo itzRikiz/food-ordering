@@ -1,11 +1,4 @@
-import { useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import { useState, useEffect } from "react";
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import Fade from "@mui/material/Fade";
@@ -20,11 +13,9 @@ import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
-import db from "../../appwrite/databases";
-import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 const style = {
   position: "absolute",
@@ -38,8 +29,11 @@ const style = {
   p: 4,
 };
 
-const CardTable = ({ rows,onEdit,onDelete }) => {
+const CardTable = () => {
   const [open, setOpen] = useState(false);
+  const [row, setRow] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [formData, setFormData] = useState({
     dishName: "",
@@ -50,31 +44,45 @@ const CardTable = ({ rows,onEdit,onDelete }) => {
     restaurantId: "",
     res_name: "",
   });
+  const [resFormData, setResFormData] = useState({
+    restaurantName: "",
+    cuisines: [],
+    rating: "",
+    costForTwo: "",
+    image: null,
+  });
 
-  const handleRowClick = (row) => {
-    setSelectedRow(row);
-    setFormData({
-      dishName: row.dishName || "",
-      category: row.category || "",
-      type: row.type || "veg",
-      price: row.price || "",
-      image: row.image || "",
-      res_name: row.name || "",
-    });
-    setOpen(true);
-  };
-  const handleEdit = (row) => {
-    onEdit(row);
-  };
-  const handleDelete = async (row)=>{
+  const cuisineOptions = [
+    "Italian",
+    "Chinese",
+    "Indian",
+    "Mexican",
+    "Japanese",
+    "Thai",
+    "Mediterranean",
+    "American",
+  ];
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append("file", resFormData.image);
+    formData.append("upload_preset", "fooddeliveryapp");
+
     try {
-      const documentId = row.$id; 
-      await onDelete(documentId); 
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/domfaq9kv/image/upload",
+        {
+          method: "post",
+          body: formData,
+        }
+      );
+      // toast.success("Image Upoaded Succesfully");
+      const data = await response.json();
+      return data.secure_url;
     } catch (error) {
-      console.error("Error deleting restaurant:", error);
+      console.error("Image upload failed:", error);
+      return "";
     }
   };
-  
 
   const handleClose = () => {
     setOpen(false);
@@ -84,25 +92,23 @@ const CardTable = ({ rows,onEdit,onDelete }) => {
   const handleSave = async (e) => {
     e.preventDefault();
     console.log("Saved data:", formData);
-    try {
-      const restaurantId = selectedRow.$id;
-      const dishitem = {
-        dish_name: formData.dishName,
-        category: formData.category,
-        type: formData.type,
-        price: formData.price,
-        img_url: formData.image,
-        restaurantId: restaurantId,
-        restaurant_name: formData.res_name,
-      };
-      console.log(dishitem, "dishitem");
-      const response = await db.dishes.create(dishitem);
-      console.log(response, "response");
-    } catch (error) {
-      console.error(error);
-    }
-
     handleClose();
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Handle form submission here
+    console.log(resFormData);
+
+    let cloudinaryImageUrl = "";
+    if (resFormData.image) {
+      cloudinaryImageUrl = await uploadImage();
+    }
+    if (!cloudinaryImageUrl) {
+      resFormData;
+    }
+    console.log(resFormData, "resFormData");
+
+    setIsModalOpen(false);
   };
 
   const handleChange = (e) => {
@@ -113,52 +119,261 @@ const CardTable = ({ rows,onEdit,onDelete }) => {
   const handleSelectChange = (e) => {
     setFormData({ ...formData, category: e.target.value });
   };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    console.log(e, "e");
+    console.log(file, "file");
+
+    if (file) {
+      setResFormData((prev) => ({
+        ...prev,
+        image: file,
+      }));
+    }
+  };
 
   const handleRadioChange = (e) => {
     setFormData({ ...formData, type: e.target.value });
   };
+  useEffect(() => {
+    fetchData();
+    // emptyFunction();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/restaurants");
+      if (!response.ok) throw new Error("Failed to fetch data");
+      const data = await response.json();
+      setRow(data.restaurants);
+    } catch (error) {
+      console.error("Failed to fetch documents:", error);
+      setRow([]);
+    }
+  };
 
   return (
-    <>
-      <div className="shadow-2xl rounded-xl">
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">S/N</TableCell>
-                <TableCell align="center">Restaurant Name</TableCell>
-                <TableCell align="center">Cuisines&nbsp;</TableCell>
-                <TableCell align="center">Rating&nbsp;</TableCell>
-                <TableCell align="center">Cost For Two&nbsp;</TableCell>
-                <TableCell align="center">Actions&nbsp;</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row, index) => (
-                <TableRow
-                  key={row.name}
-                  style={{ cursor: "pointer" }}
-                >
-                  <TableCell align="center">{index + 1}</TableCell>
-                  <TableCell align="center">{row.name}</TableCell>
-                  <TableCell align="center">
-                    {row.cuisines.join(", ")}
-                  </TableCell>
-                  <TableCell align="center">{row.rating}</TableCell>
-                  <TableCell align="center">₹{row.costForTwo}</TableCell>
-                  <TableCell align="center">
-                    <div className='d-flex justify-between'>
-                      <AddBoxIcon onClick={() => handleRowClick(row)}/>
-                      <DriveFileRenameOutlineIcon  onClick={() => handleEdit(row)}/>
-                      <DeleteForeverIcon onClick={() => handleDelete(row)}/>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+    <div className="w-full px-4 py-8 mx-auto max-w-7xl">
+      <div className="flex items-center justify-between mb-6 space-x-4">
+        <input
+          type="text"
+          placeholder="Type To Search"
+          className="w-full max-w-xs px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          Add Restaurant
+        </button>
       </div>
+      <div className="overflow-x-auto">
+        <div className="inline-block min-w-full align-middle">
+          <div className="overflow-hidden border rounded-lg shadow">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    S/N
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    Restaurant Name
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    Cuisines&nbsp;
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    Rating&nbsp;
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    Cost For Two&nbsp;
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    Actions&nbsp;
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {row.map((row, index) => (
+                  <tr
+                    key={row.name}
+                    className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                  >
+                    <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                      {index + 1}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                      {row.name}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                      {row.cuisines.join(", ")}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                      {row.rating}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                      ₹{row.costForTwo}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                      <div className="d-flex justify-between">
+                        <AddBoxIcon />
+                        <DriveFileRenameOutlineIcon />
+                        <DeleteForeverIcon />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
+            <div className="flex justify-between mb-4">
+              <h2 className="text-xl font-bold">Add Restaurant</h2>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                ×
+              </button>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-700">
+                  Restaurant Name
+                </label>
+                <input
+                  type="text"
+                  value={resFormData.restaurantName}
+                  onChange={(e) =>
+                    setResFormData((prev) => ({
+                      ...prev,
+                      restaurantName: e.target.value,
+                    }))
+                  }
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-700">
+                  Cuisines
+                </label>
+                <select
+                  multiple
+                  value={resFormData.cuisines}
+                  onChange={(e) =>
+                    setResFormData((prev) => ({
+                      ...prev,
+                      cuisines: Array.from(
+                        e.target.selectedOptions,
+                        (option) => option.value
+                      ),
+                    }))
+                  }
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                >
+                  {cuisineOptions.map((cuisine, index) => (
+                    <option key={index} value={cuisine}>
+                      {cuisine}
+                    </option>
+                  ))}
+                </select>
+                <p className="mt-1 text-xs text-gray-500">
+                  Hold Ctrl/Cmd to select multiple
+                </p>
+              </div>
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-700">
+                  Rating
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  max="5"
+                  step="0.1"
+                  value={resFormData.rating}
+                  onChange={(e) =>
+                    setResFormData((prev) => ({
+                      ...prev,
+                      rating: e.target.value,
+                    }))
+                  }
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-700">
+                  Cost For Two
+                </label>
+                <input
+                  type="number"
+                  value={resFormData.costForTwo}
+                  onChange={(e) =>
+                    setResFormData((prev) => ({
+                      ...prev,
+                      costForTwo: e.target.value,
+                    }))
+                  }
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-700">
+                  Restaurant Image
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div className="flex justify-end space-x-4">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 text-gray-700 border rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  Add Restaurant
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       <Modal
         aria-labelledby="transition-modal-title"
@@ -284,7 +499,7 @@ const CardTable = ({ rows,onEdit,onDelete }) => {
           </Box>
         </Fade>
       </Modal>
-    </>
+    </div>
   );
 };
 

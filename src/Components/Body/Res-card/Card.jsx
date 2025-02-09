@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 function Card({ resData }) {
-  const { name, cuisines, rating, costForTwo, cloudinaryImageId } = resData;
+  const { name, cuisines, rating, cloudinaryImageId } = resData;
 
   return (
     <Link to={`/view-restaurant/${resData.$id}`} className="block">
@@ -15,10 +15,13 @@ function Card({ resData }) {
           <h3 className="text-lg md:text-xl font-semibold mb-2 text-eggplant">
             {name}
           </h3>
-          <p className="text-sm md:text-base text-charcoal mb-2">Indian</p>
+          <p className="text-sm md:text-base text-charcoal mb-2">
+            {cuisines.join(", ")}
+          </p>
+
           <div className="flex items-center">
             <span className="text-orange mr-1">★</span>
-            <span className="font-medium text-charcoal">4.2</span>
+            <span className="font-medium text-charcoal">{rating}</span>
           </div>
         </div>
       </div>

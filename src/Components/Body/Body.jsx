@@ -35,9 +35,9 @@ function Body() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {filteredList.map((restaurant) =>
               restaurant.promoted ? (
-                <PromotedCard key={restaurant.$id} resData={restaurant} />
+                <PromotedCard key={restaurant._id} resData={restaurant} />
               ) : (
-                <Card key={restaurant.$id} resData={restaurant} />
+                <Card key={restaurant._id} resData={restaurant} />
               )
             )}
           </div>

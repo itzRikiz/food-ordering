@@ -1,12 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import Body from "./Components/Body/Body";
 import About from "./Components/About/About";
-import AddRestaurant from "./Components/FoodForm/AddRestaurant";
+// import AddRestaurant from "./Components/FoodForm/AddRestaurant";
 import AppLayout from "./Components/Body/AppLayout";
 import DishPage from "./Components/Dishes/DishPage";
 import Cart from "./Components/Cart/Cart";
 import LoginForm from "./pages/Sessions/Login";
 import SignupForm from "./pages/Sessions/Signup";
+import CardTable from "./Components/FoodForm/CardTable";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/add-restaurant",
-        element: <AddRestaurant />,
+        element: <CardTable />,
       },
       {
         path: "/view-restaurant/:id",
