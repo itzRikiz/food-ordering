@@ -1,7 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 
-import { account } from "../../appwrite/config";
-import { ID } from "appwrite";
 import { useState } from "react";
 import LoginForm from "./Login";
 const SignupForm = () => {
@@ -9,7 +7,6 @@ const SignupForm = () => {
     name: "",
     email: "",
     password: "",
-    // confirmPassword: "",
   });
   const [isLogin, setIsLogin] = useState(false);
 
@@ -23,20 +20,23 @@ const SignupForm = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    const signupFun = await account.create(
-      ID.unique(),
-      userData.email,
-      userData.password,
-      userData.name
-    );
-    signupFun.then(
-      (res) => {
-        console.log(res, "res");
-      },
-      (err) => {
-        console.error(err);
+    console.log(userData, "userData");
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to sign up. Please try again.");
       }
-    );
+      const result = await response.json();
+      console.log("User signed up successfully:", result);
+    } catch (error) {
+      console.error("Signup error:", error.message);
+    }
   };
   if (isLogin) {
     return <LoginForm />;

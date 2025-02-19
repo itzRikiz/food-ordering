@@ -1,7 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState, useContext } from "react";
-import { account } from "../../appwrite/config";
-import { ID } from "appwrite";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../utils/UserContext";
@@ -21,33 +19,14 @@ const LoginForm = () => {
   const { setUser } = useContext(UserContext);
 
   const handleOTP = async () => {
-    try {
-      const response = await account.createPhoneToken(ID.unique(), phoneNumber);
-      setUserId(response.userId);
-      setOtpSent(true);
-      toast.success("OTP sent to your phone number.");
-    } catch (error) {
-      console.error(error);
-      toast.error("Error sending OTP. Please try again.");
-    }
+    
   };
   const handleOtpLogin = async () => {
-    try {
-      await account.updatePhoneSession(userId, otp);
-      const user = await account.get();
-      setUser(user);
-      toast.success("Login successful!");
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-      toast.error("Invalid OTP. Please try again.");
-    }
+    
   };
   const handleEmailLogin = async () => {
     try {
-      await account.createEmailPasswordSession(email, password);
-      const user = await account.get();
-      setUser(user);
+      await 
       toast.success("Login successful!");
       navigate("/");
     } catch (error) {
