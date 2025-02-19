@@ -96,19 +96,40 @@ const CardTable = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log(resFormData);
-
     let cloudinaryImageUrl = "";
+
+    // Upload image if available
     if (resFormData.image) {
       cloudinaryImageUrl = await uploadImage();
     }
-    if (!cloudinaryImageUrl) {
-      resFormData;
-    }
-    console.log(resFormData, "resFormData");
 
-    setIsModalOpen(false);
+    // Ensure we add the image URL if uploaded
+    const formData = {
+      ...resFormData,
+      image: cloudinaryImageUrl || resFormData.image, // Retain existing image if not uploaded
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/api/restaurants", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit restaurant data");
+      }
+
+      const result = await response.json();
+      console.log("Restaurant added:", result);
+
+      // Close modal after successful submission
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error submitting restaurant data:", error);
+    }
   };
 
   const handleChange = (e) => {
