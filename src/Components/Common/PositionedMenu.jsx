@@ -24,7 +24,7 @@ export default function PositionedMenu({ user, handleLogout }) {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        {user?.name ? user.name : user.phone}
+        {user?.name ? user.name.split(" ")[0] : user.phone}
       </Button>
       <Menu
         id="demo-positioned-menu"

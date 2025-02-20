@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../utils/UserContext.jsx";
 import { account } from "../../appwrite/config";
@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const CartItem = useSelector((store) => store.cart.items);
 
@@ -20,6 +21,12 @@ function Header() {
       toast.error(error.message);
     }
   };
+  useEffect(() => {
+    () => {
+      const adminStatus = localStorage.getItem("admin");
+      setIsAdmin(adminStatus);
+    };
+  }, []);
 
   return (
     <header className="bg-white shadow-sm">
@@ -72,14 +79,17 @@ function Header() {
                   Offers
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/add-restaurant"
-                  className="block py-2 text-charcoal hover:text-eggplant"
-                >
-                  Add Restaurant Info
-                </Link>
-              </li>
+              {isAdmin && (
+                <li>
+                  <Link
+                    to="/add-restaurant"
+                    className="block py-2 text-charcoal hover:text-eggplant"
+                  >
+                    Add Restaurant Info
+                  </Link>
+                </li>
+              )}
+
               {!user ? (
                 <li>
                   <Link

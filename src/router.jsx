@@ -8,6 +8,8 @@ import Cart from "./Components/Cart/Cart";
 import LoginForm from "./pages/Sessions/Login";
 import SignupForm from "./pages/Sessions/Signup";
 import CardTable from "./Components/FoodForm/CardTable";
+import Unauthorized from "./pages/Sessions/Unauthorized";
+import PrivateRoute from "./PrivateRoute";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -21,10 +23,6 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
-      },
-      {
-        path: "/add-restaurant",
-        element: <CardTable />,
       },
       {
         path: "/view-restaurant/:id",
@@ -41,6 +39,13 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignupForm />,
+      },
+      { path: "/unauthorized", element: <Unauthorized /> },
+
+      {
+        path: "/add-restaurant",
+        element: <PrivateRoute />,
+        children: [{ path: "/add-restaurant", element: <CardTable /> }],
       },
     ],
   },
