@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../utils/UserContext.jsx";
-import { account } from "../../appwrite/config";
+
 import { toast } from "react-toastify";
 import PositionedMenu from "../Common/PositionedMenu.jsx";
 import { useSelector } from "react-redux";
@@ -14,7 +14,6 @@ function Header() {
 
   const handleLogout = async () => {
     try {
-      await account.deleteSession("current");
       toast.success("Logged Out");
       setUser(null);
     } catch (error) {
