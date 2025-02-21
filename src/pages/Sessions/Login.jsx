@@ -90,6 +90,7 @@ const LoginForm = () => {
       console.log(result, "result");
 
       localStorage.setItem("token", result.token);
+      localStorage.setItem("userDetails", JSON.stringify(result.userDetails));
       if (result.userDetails.role === "admin") {
         localStorage.setItem("admin", true);
       } else {

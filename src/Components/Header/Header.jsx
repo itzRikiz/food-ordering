@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../utils/UserContext.jsx";
 
 import { toast } from "react-toastify";
@@ -11,11 +11,14 @@ function Header() {
   const [isAdmin, setIsAdmin] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const CartItem = useSelector((store) => store.cart.items);
-
+  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      toast.success("Logged Out");
+      localStorage.removeItem("token");
+      localStorage.removeItem("userDetails");
       setUser(null);
+      toast.success("Logged Out");
+      navigate("/");
     } catch (error) {
       toast.error(error.message);
     }
@@ -88,7 +91,7 @@ function Header() {
                   </Link>
                 </li>
               )}
-
+              {/* {user.name} */}
               {!user ? (
                 <li>
                   <Link
