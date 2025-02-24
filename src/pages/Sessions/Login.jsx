@@ -31,7 +31,7 @@ const LoginForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phoneNumber: formData.phoneNumber }),
+        body: JSON.stringify({ phone: formData.phoneNumber }),
       });
 
       if (!response.ok) throw new Error("Failed to send OTP. Try again.");
@@ -46,22 +46,32 @@ const LoginForm = () => {
 
   const handleOtpLogin = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/auth/otp-login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phoneNumber: formData.phoneNumber,
-          otp: formData.otp,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/auth/verify-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            otp: formData.otp,
+            phone: formData.phoneNumber,
+          }),
+        }
+      );
 
       if (!response.ok) throw new Error("Invalid OTP. Try again.");
 
       const result = await response.json();
+    
       localStorage.setItem("token", result.token);
-      setUser(result.user);
+      localStorage.setItem("userDetails", JSON.stringify(result.userDetails));
+      if (result.userDetails.role === "admin") {
+        localStorage.setItem("admin", true);
+      } else {
+        localStorage.setItem("admin", false);
+      }
+      setUser(result.userDetails);
 
       await toast.success("Login successful!");
       navigate("/");
