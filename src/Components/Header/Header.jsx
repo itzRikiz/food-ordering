@@ -24,10 +24,9 @@ function Header() {
     }
   };
   useEffect(() => {
-    () => {
-      const adminStatus = localStorage.getItem("admin");
-      setIsAdmin(adminStatus);
-    };
+    const adminStatus = localStorage.getItem("admin");
+    console.log(adminStatus, "adminStatus");
+    setIsAdmin(adminStatus);
   }, []);
 
   return (

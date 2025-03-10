@@ -4,7 +4,7 @@ function Card({ resData }) {
   const { name, cuisines, rating, cloudinaryImageId } = resData;
 
   return (
-    <Link to={`/view-restaurant/${resData.$id}`} className="block">
+    <Link to={`/view-restaurant/${resData._id}`} className="block">
       <div className="bg-cream rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105 cursor-pointer">
         <img
           src={cloudinaryImageId}
