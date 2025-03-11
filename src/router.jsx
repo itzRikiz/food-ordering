@@ -7,9 +7,10 @@ import DishPage from "./Components/Dishes/DishPage";
 import Cart from "./Components/Cart/Cart";
 import LoginForm from "./pages/Sessions/Login";
 import SignupForm from "./pages/Sessions/Signup";
-import CardTable from "./Components/FoodForm/CardTable";
+// import CardTable from "./Components/FoodForm/CardTable";
 import Unauthorized from "./pages/Sessions/Unauthorized";
 import PrivateRoute from "./PrivateRoute";
+import RestaurantForm from "./Components/Restaurant/CreateRestaurant/RestaurantForm";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -45,7 +46,8 @@ const router = createBrowserRouter([
       {
         path: "/add-restaurant",
         element: <PrivateRoute />,
-        children: [{ path: "/add-restaurant", element: <CardTable /> }],
+        children: [{ path: "/add-restaurant", element: <RestaurantForm /> }],
+        // children: [{ path: "/add-restaurant", element: <CardTable /> }],
       },
     ],
   },
